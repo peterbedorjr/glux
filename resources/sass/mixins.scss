@@ -1,0 +1,31 @@
+@import '~@weepower/core/styles/mixins.scss';
+
+@mixin mobilePortrait() {
+    @media (min-width: 480px) {
+        @content;
+    }
+}
+
+@mixin tablet() {
+    @media (min-width: 743px) {
+        @content;
+    }
+}
+
+@mixin desktop() {
+    @media (min-width: 999px) {
+        @content;
+    }
+}
+
+@mixin desktopMedium() {
+    @media (min-width: 1255px) {
+        @content;
+    }
+}
+
+@mixin desktopLarge() {
+    @media (min-width: 1415px) {
+        @content;
+    }
+}
