@@ -26,11 +26,11 @@ class Channel extends Model
     protected $dates = ['deleted_at'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function conversation()
     {
-        return $this->hasOne(Conversation::class);
+        return $this->belongsTo(Conversation::class);
     }
 
     /**

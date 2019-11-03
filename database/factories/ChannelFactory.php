@@ -10,7 +10,7 @@ $factory->define(Channel::class, function(Faker $faker) {
         'conversation_id' => function() {
             return factory(\App\Models\Conversation::class)->create()->id;
         },
-        'name' => ucfirst($faker->word),
+        'name' => ucfirst($faker->unique()->word),
     ];
 });
 

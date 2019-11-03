@@ -24,13 +24,13 @@ class ChatSeeder extends Seeder
                 ->create(),
         ];
 
-        //$users->each(function($user) use ($channels) {
-        //    factory(Message::class, 300)->make()->each(function($message) use ($user, $channels) {
-        //        $type = (rand(0, 1) === 1) ? 'private' : 'public';
-        //
-        //        //$message->channel_id = $channels->{$type}->random()->id;
-        //        $user->messages()->save($message);
-        //    });
-        //});
+        $users->each(function($user) use ($channels) {
+            factory(Message::class, 100)->make()->each(function($message) use ($user, $channels) {
+                $type = (rand(0, 1) === 1) ? 'private' : 'public';
+
+                $message->conversation_id = $channels->{$type}->random()->conversation->id;
+                $user->messages()->save($message);
+            });
+        });
     }
 }
