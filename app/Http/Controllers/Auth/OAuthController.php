@@ -63,7 +63,7 @@ class OAuthController extends Controller
     /**
      * @param  string $provider
      * @param  \Laravel\Socialite\Contracts\User $sUser
-     * @return \App\User|false
+     * @return \App\Models\User|false
      */
     protected function findOrCreateUser($provider, $user)
     {
@@ -90,7 +90,7 @@ class OAuthController extends Controller
     /**
      * @param  string $provider
      * @param  \Laravel\Socialite\Contracts\User $sUser
-     * @return \App\User
+     * @return \App\Models\User
      */
     protected function createUser($provider, $sUser)
     {
