@@ -37,53 +37,34 @@ class Conversation extends Model
     /**
      * Check if a conversation exists between a collection of users
      *
+     * @param User $user
      * @param Collection $users
      * @return bool|mixed
      */
-    public static function exists(Collection $users)
+    public static function exists(User $user, Collection $users)
     {
         /* @var Collection $ids */
         $ids = $users->map(function($user) {
             return $user->id;
         });
 
-        $query = DB::table('conversation_user AS c1')
-            ->select('c2.conversation_id AS id')
-            ->distinct();
+        return $user->conversations()
+            ->with('users')
+            ->get()
+            ->map(function($conversation) use ($ids) {
+                /* @var Collection $userIds */
+                $userIds = $conversation->users->map(function($user) {
+                    return $user->id;
+                });
 
-        for ($i = 0; $i < $ids->count(); $i++) {
-            $id = $ids[$i];
-
-            $query->join('conversation_user AS c' . ($i + 2), function($join) use ($id, $i) {
-                /* @var \Illuminate\Database\Query\JoinClause $join */
-                $join->where('c' . ($i + 2) . '.user_id', '=', $id);
-            });
-        }
-
-        $result = $query->first();
-
-        if (! empty($result)) {
-            return $result->id;
-        }
-
-        return false;
+                if (
+                    $userIds->count() === $ids->count()
+                    && $userIds->sort()->values()->all() === $ids->sort()->values()->all()
+                ) {
+                    return $conversation;
+                }
+            })->filter(function($val) {
+                return $val;
+            })->first();
     }
-
-    //public static function exists(User $userOne, User $userTwo)
-    //{
-    //    $conversation = DB::table('conversation_user AS c1')
-    //            ->select('c2.conversation_id AS id')
-    //            ->distinct()
-    //            ->join('conversation_user AS c2', function($join) use ($userOne, $userTwo) {
-    //                /* @var \Illuminate\Database\Query\JoinClause $join */
-    //                $join->where('c1.user_id', '=', $userOne->id)
-    //                    ->where('c2.user_id', '=', $userTwo->id);
-    //            })->first();
-    //
-    //    if (! empty($conversation)) {
-    //        return self::find($conversation->id);
-    //    }
-    //
-    //    return false;
-    //}
 }

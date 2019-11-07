@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Pivots\ConversationUser;
 use App\Notifications\VerifyEmail;
 use App\Notifications\ResetPassword;
+use Illuminate\Database\Eloquent\Collection;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -146,15 +147,12 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
     /**
      * Start a conversation with another user
      *
-     * @param $user
+     * @param Collection $users
      * @return Conversation|bool
      */
-    public function startConversationWith($users)
+    public function startConversationWith(Collection $users)
     {
-        // Add current user to users collection
-        $users->add($this);
-
-        if ($conversation = Conversation::exists($users)) {
+        if ($conversation = Conversation::exists($this, $users)) {
             return $conversation;
         }
 
