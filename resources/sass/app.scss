@@ -10,3 +10,15 @@ body,
 #app {
     height: 100%;
 }
+
+// Errors
+
+.help-block {
+    margin-bottom: 2rem;
+    margin-top: .2rem;
+
+    &.invalid-feedback {
+        font-size: 1.2rem;
+        color: $error;
+    }
+}

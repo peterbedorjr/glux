@@ -6,6 +6,7 @@ use App\Models\Pivots\ConversationUser;
 use App\Notifications\VerifyEmail;
 use App\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -53,7 +54,7 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
      * @var array
      */
     protected $appends = [
-        'photo_url',
+        'avatar',
     ];
 
     /**
@@ -61,7 +62,7 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
      *
      * @return string
      */
-    public function getPhotoUrlAttribute()
+    public function getAvatarAttribute()
     {
         return 'https://www.gravatar.com/avatar/' . md5(strtolower($this->email)) . '.jpg?s=200&d=mm';
     }
@@ -121,17 +122,14 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
         return $this->belongsToMany(Conversation::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
-     */
     public function channels()
     {
         return $this->hasManyThrough(
             Channel::class,
             ConversationUser::class,
+            'user_id',
             'conversation_id',
-            'conversation_id',
-            'id',
+            null,
             'conversation_id'
         );
     }

@@ -16,6 +16,8 @@ class Message extends Model
      */
     protected $dates = ['deleted_at'];
 
+    protected $appends = ['created_at_iso'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -30,5 +32,15 @@ class Message extends Model
     public function conversation()
     {
         return $this->belongsTo(Conversation::class);
+    }
+
+    /**
+     * The created at date in ISO 8601 format
+     *
+     * @return mixed
+     */
+    public function getCreatedAtIsoAttribute()
+    {
+        return $this->created_at->format('c');
     }
 }

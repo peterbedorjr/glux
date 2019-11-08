@@ -2,7 +2,7 @@
     <nav class="navbar">
         <div class="container">
             <div class="navbar__top">
-                <router-link :to="{ name: user ? 'home' : 'welcome' }">
+                <router-link :to="{ name: user ? 'channels' : 'welcome' }">
                     <h1 class="navbar__brand">{{ appName }}</h1>
                 </router-link>
 

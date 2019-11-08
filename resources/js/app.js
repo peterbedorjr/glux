@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import VueLuxon from 'vue-luxon';
 import store from './store';
 import router from './router';
 import i18n from './plugins/i18n';
@@ -8,6 +9,8 @@ import './plugins';
 import './components';
 
 Vue.config.productionTip = false;
+
+Vue.use(VueLuxon);
 
 /* eslint-disable no-new */
 new Vue({

@@ -1,12 +1,12 @@
 <template>
     <input
-        :id="id"
+        :id="id || name"
         :name="name"
         :type="nativeType"
         :disabled="disabled"
         :class="classes"
         class="input"
-        @input="$emit('input', $event.value)"
+        @input="$emit('input', $event.target.value)"
     />
 </template>
 
@@ -39,15 +39,13 @@ export default {
             return classes;
         },
     },
-    mounted() {
-        // Set default id if not provided
-        if (! this.id) {
-            this.id = this.name;
-        }
-    },
 };
 </script>
 
 <style lang="scss" scoped>
-
+.input {
+    &.-is-invalid {
+        margin-bottom: 0;
+    }
+}
 </style>

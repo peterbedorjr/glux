@@ -54,11 +54,10 @@ export default {
             if (this.icon) {
                 classes.push('-icon');
             }
-            //
-            // if (this.block) {
-            //     classes['-block'] = true;
-            // }
-            //
+
+            if (this.block) {
+                classes.push('-block');
+            }
 
             return classes;
         },
@@ -72,6 +71,24 @@ export default {
         padding: 0;
         line-height: 0;
         background-color: transparent;
+    }
+
+    &.-block {
+        display: block;
+        width: 100%;
+    }
+
+    &.-primary {
+        background-color: $primary;
+        color: $white;
+
+        &:hover {
+            background-color: darken($primary, 5%)
+        }
+
+        &:active {
+            background-color: darken($primary, 10%)
+        }
     }
 }
 </style>

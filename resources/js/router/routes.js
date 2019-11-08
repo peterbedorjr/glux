@@ -11,8 +11,14 @@ export default [
     { path: '/password/reset/:token', name: 'password.reset', component: page('auth/password/reset.vue') },
     { path: '/email/verify/:id', name: 'verification.verify', component: page('auth/verification/verify.vue') },
     { path: '/email/resend', name: 'verification.resend', component: page('auth/verification/resend.vue') },
-
-    { path: '/home', name: 'home', component: page('home.vue') },
+    {
+        path: '/channels',
+        name: 'channels',
+        component: page('home.vue'),
+        children: [
+            { path: ':id', name: 'channels.show', component: page('channels/show.vue') },
+        ],
+    },
     {
         path: '/settings',
         component: page('settings/index.vue'),

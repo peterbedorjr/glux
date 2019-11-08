@@ -29,6 +29,14 @@ Route::group(['middleware' => 'guest:api'], function () {
 });
 
 Route::group(['namespace' => 'Api'], function() {
-    Route::get('channels', 'ChannelsController@index');
-    Route::get('channels/{channelId}', 'ChannelsController@show');
+    Route::group(['prefix' => 'channels'], function() {
+        Route::get('/', 'ChannelsController@index');
+        Route::get('/{channelId}', 'ChannelsController@show');
+        Route::get('/{channelId}/messages', 'ChannelMessagesController@index');
+    });
+
+    Route::group(['prefix' => 'user'], function() {
+        Route::get('channels', 'UserChannelsController@index');
+        Route::get('channels/{channelId}', 'UserChannelsController@show');
+    });
 });

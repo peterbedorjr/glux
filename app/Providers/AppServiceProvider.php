@@ -23,12 +23,6 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Channel::observe(ChannelObserver::class);
-
-        Route::bind('channelId', function ($id) {
-            return Channel::where('id', $id)
-                ->with('conversation.messages.user')
-                ->first() ?? abort(404);
-        });
     }
 
     /**

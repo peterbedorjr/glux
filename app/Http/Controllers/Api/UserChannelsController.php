@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Channel;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class ChannelsController extends Controller
+class UserChannelsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +20,7 @@ class ChannelsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -32,23 +31,22 @@ class ChannelsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\Channel $channel
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Channel $channel)
+    public function show($id)
     {
-        dd($channel);
-        return response()->json($channel);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Channel $channel
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Channel $channel)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -56,10 +54,10 @@ class ChannelsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Channel $channel
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Channel $channel)
+    public function destroy($id)
     {
         //
     }
