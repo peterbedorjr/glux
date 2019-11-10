@@ -9,20 +9,13 @@
 </template>
 
 <script>
-import Loading from './Loading.vue';
+import Loading from './molecules/Loading.vue';
 
 export default {
     el: '#app',
-
     components: {
         Loading,
     },
-
-    data: () => ({
-        layout: null,
-        defaultLayout: 'default',
-    }),
-
     metaInfo() {
         const { appName } = window.config;
 
@@ -31,7 +24,6 @@ export default {
             titleTemplate: `%s · ${appName}`,
         };
     },
-
     mounted() {
         this.$loading = this.$refs.loading;
     },

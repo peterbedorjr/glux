@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import Sidebar from '../components/Sidebar.vue';
+import Sidebar from '../../molecules/Sidebar.vue';
 
 export default {
     middleware: 'auth',

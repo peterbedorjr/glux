@@ -11,19 +11,20 @@ export const state = {
 
 // getters
 export const getters = {
-    locale: state => state.locale,
-    locales: state => state.locales,
+    locale: s => s.locale,
+    locales: s => s.locales,
 };
 
 // mutations
 export const mutations = {
-    [types.SET_LOCALE](state, { locale }) {
-        state.locale = locale;
+    [types.SET_LOCALE](s, { locale }) {
+        s.locale = locale;
     },
 };
 
 // actions
 export const actions = {
+    /* eslint-disable-next-line */
     setLocale({ commit }, { locale }) {
         commit(types.SET_LOCALE, { locale });
 

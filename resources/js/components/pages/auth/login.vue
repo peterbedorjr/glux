@@ -1,6 +1,9 @@
 <template>
-    <form class="login" @submit.prevent="login" @keydown="form.onKeydown($event)">
-        <h1 class="login__header">Login</h1>
+    <form class="login" @submit.prevent="login">
+        <h1 class="login__header">
+            Login
+        </h1>
+
         <v-input
             v-model="form.email"
             :class="{ '-is-invalid': form.errors.has('email') }"
@@ -34,17 +37,18 @@
 </template>
 
 <script>
-import Form from 'vform';
-import VInput from '../../components/form/Input.vue';
-import VButton from '../../components/Button.vue';
-import Checkbox from '../../components/form/Checkbox.vue';
+import { Form, HasError } from 'vform';
+import VInput from '../../atoms/Input.vue';
+import VButton from '../../atoms/Button.vue';
+import Checkbox from '../../molecules/Checkbox.vue';
 
 export default {
     middleware: 'guest',
     components: {
-        VInput,
-        VButton,
         Checkbox,
+        HasError,
+        VButton,
+        VInput,
     },
     metaInfo() {
         return { title: this.$t('login') };

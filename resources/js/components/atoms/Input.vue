@@ -12,7 +12,7 @@
 
 <script>
 export default {
-    name: 'VButton',
+    name: 'VInput',
     props: {
         id: {
             type: String,
@@ -43,9 +43,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.input {
-    &.-is-invalid {
-        margin-bottom: 0;
+    .input {
+        &.-is-invalid {
+            margin-bottom: 0;
+        }
     }
-}
 </style>

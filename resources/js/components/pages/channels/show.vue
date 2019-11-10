@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import PubSub from 'pubsub-js';
 import axios from 'axios';
 
 export default {
@@ -45,17 +44,17 @@ export default {
             vm.channelId = to.params.id;
         });
     },
+    data: () => ({
+        messages: [],
+        channelId: null,
+        message: '',
+    }),
     mounted() {
         window.Echo.channel('glux_database_test')
             .listen('MessagePublished', (e) => {
                 this.messages.push(e.message);
             });
     },
-    data: () => ({
-        messages: [],
-        channelId: null,
-        message: '',
-    }),
     methods: {
         async submitMessage() {
             if (this.message) {

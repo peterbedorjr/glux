@@ -10,43 +10,42 @@ export const state = {
 
 // getters
 export const getters = {
-    user: state => state.user,
-    token: state => state.token,
-    check: state => state.user !== null,
+    user: s => s.user,
+    token: s => s.token,
+    check: s => s.user !== null,
 };
 
 // mutations
 export const mutations = {
-    [types.SAVE_TOKEN](state, { token, remember }) {
-        state.token = token;
-
+    [types.SAVE_TOKEN](s, { token, remember }) {
+        s.token = token;
         Cookies.set('token', token, { expires: remember ? 365 : null });
     },
 
-    [types.FETCH_USER_SUCCESS](state, { user }) {
-        state.user = user;
+    [types.FETCH_USER_SUCCESS](s, { user }) {
+        s.user = user;
     },
 
-    [types.FETCH_USER_FAILURE](state) {
-        state.token = null;
+    [types.FETCH_USER_FAILURE](s) {
+        s.token = null;
         Cookies.remove('token');
     },
 
-    [types.LOGOUT](state) {
-        state.user = null;
-        state.token = null;
+    [types.LOGOUT](s) {
+        s.user = null;
+        s.token = null;
 
         Cookies.remove('token');
     },
 
-    [types.UPDATE_USER](state, { user }) {
-        state.user = user;
+    [types.UPDATE_USER](s, { user }) {
+        s.user = user;
     },
 };
 
 // actions
 export const actions = {
-    saveToken({ commit, dispatch }, payload) {
+    saveToken({ commit }, payload) {
         commit(types.SAVE_TOKEN, payload);
     },
 
@@ -67,9 +66,7 @@ export const actions = {
     async logout({ commit }) {
         try {
             await axios.post('/api/logout');
-        } catch (e) {
-            //
-        }
+        } catch (e) { }
 
         commit(types.LOGOUT);
     },

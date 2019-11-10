@@ -13,7 +13,7 @@ const globalMiddleware = ['locale', 'check-auth'];
 
 // Load middleware modules dynamically.
 const routeMiddleware = resolveMiddleware(
-    require.context('~/middleware', false, /.*\.js$/)
+    require.context('./middleware', false, /.*\.js$/)
 );
 
 /**
@@ -173,9 +173,9 @@ async function beforeEach(to, from, next) {
 
     try {
         // Get the matched components and resolve them.
-        components = await resolveComponents(
-            router.getMatchedComponents({ ...to })
-        );
+        components = await resolveComponents(router.getMatchedComponents({
+            ...to,
+        }));
     } catch (error) {
         if (/^Loading( CSS)? chunk (\d)+ failed\./.test(error.message)) {
             window.location.reload(true);
