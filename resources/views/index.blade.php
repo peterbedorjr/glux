@@ -14,6 +14,8 @@
 
     <title>{{ config('app.name') }}</title>
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <link href="https://fonts.googleapis.com/css?family=Chivo:400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ mix('dist/css/app.css') }}">
 </head>

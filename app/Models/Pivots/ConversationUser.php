@@ -4,6 +4,7 @@ namespace App\Models\Pivots;
 
 use App\Models\Channel;
 use App\Models\Conversation;
+use App\Models\Message;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
@@ -32,5 +33,4 @@ class ConversationUser extends Pivot
     {
         return $this->hasManyThrough(Channel::class, Conversation::class);
     }
-
 }

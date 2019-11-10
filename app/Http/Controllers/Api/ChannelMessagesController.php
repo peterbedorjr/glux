@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\MessagePublished;
 use App\Models\Channel;
+use App\Models\Conversation;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -22,6 +24,7 @@ class ChannelMessagesController extends Controller
             ->conversation
             ->messages()
             ->with('user')
+            ->orderBy('created_at', 'desc')
             ->paginate(50);
 
         return response()->json($messages);
@@ -33,9 +36,25 @@ class ChannelMessagesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($id, Request $request)
     {
-        //
+        $conversationId = Conversation::find($id)->id;
+
+        $message = new Message();
+        $message->content = $request->input('message');
+        $message->user_id = auth()->user()->id;
+        $message->conversation_id = $conversationId;
+        $message->save();
+
+        $message = $message->where('id', $message->id)
+            ->with('user')
+            ->first();
+
+        MessagePublished::dispatch([
+            'message' => $message,
+        ]);
+
+        return response()->json($message);
     }
 
     /**

@@ -9,14 +9,16 @@
                     Channels
                 </span>
                 <ul class="conversations__section">
-                    <li
+                    <router-link
                         v-for="channel in channels"
                         :key="channel.id"
+                        :to="{ name: 'channel.show', params: { id: channel.id } }"
+                        tag="li"
                         :class="{ '-is-selected': channel.id == selectedChannelId }"
                         class="conversations__conversation"
                     >
                         # {{ channel.name }}
-                    </li>
+                    </router-link>
                 </ul>
             </li>
         </ul>

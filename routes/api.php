@@ -33,6 +33,7 @@ Route::group(['namespace' => 'Api'], function() {
         Route::get('/', 'ChannelsController@index');
         Route::get('/{channelId}', 'ChannelsController@show');
         Route::get('/{channelId}/messages', 'ChannelMessagesController@index');
+        Route::post('/{channelId}/messages', 'ChannelMessagesController@store');
     });
 
     Route::group(['prefix' => 'user'], function() {
