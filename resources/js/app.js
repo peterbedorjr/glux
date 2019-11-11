@@ -6,6 +6,7 @@ import i18n from './plugins/i18n';
 import App from './components/App.vue';
 
 import './plugins/echo';
+import './plugins/directives';
 
 Vue.config.productionTip = false;
 

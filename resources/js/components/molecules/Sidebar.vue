@@ -1,7 +1,9 @@
 <template>
     <div class="sidebar">
         <header class="sidebar__header">
-            <h1 class="sidebar__logo">Glux</h1>
+            <h1 class="sidebar__logo">
+                Glux
+            </h1>
         </header>
         <ul class="conversations">
             <li>
@@ -14,7 +16,7 @@
                         :key="channel.id"
                         :to="{ name: 'channel.show', params: { id: channel.id } }"
                         tag="li"
-                        :class="{ '-is-selected': channel.id == selectedChannelId }"
+                        :class="{ '-is-selected': channel.id == currentChannelId }"
                         class="conversations__conversation"
                     >
                         # {{ channel.name }}
@@ -26,21 +28,35 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
-    async mounted() {
-        // TODO: Move these api calls into their own file
-        // TODO: Add error handling and load state
-        const { data: channels } = await axios.get('/api/v1/user/channels');
-
-        this.channels = channels;
-        this.selectedChannelId = this.$route.params.id;
+    computed: {
+        ...mapGetters('channels', [
+            'channels',
+            'currentChannelId',
+        ]),
     },
-    data: () => ({
-        channels: [],
-        selectedChannelId: null,
-    }),
+    watch: {
+        $route(to) {
+            this.setCurrentChannelId({
+                id: to.params.id,
+            });
+        },
+    },
+    async mounted() {
+        await this.fetchChannels();
+
+        this.setCurrentChannelId({
+            id: this.$route.params.id,
+        });
+    },
+    methods: {
+        ...mapActions('channels', [
+            'fetchChannels',
+            'setCurrentChannelId',
+        ]),
+    },
 };
 </script>
 
@@ -81,6 +97,7 @@ export default {
 
     &__conversation {
         color: $white;
+        cursor: pointer;
 
         &.-is-selected {
             background-color: darken($primary, 5%);

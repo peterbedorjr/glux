@@ -69,9 +69,10 @@ function callMiddleware(middleware, to, from, next) {
  * Resolve async components.
  *
  * @param  {Array} components
- * @return {Array}
+ * @return {Promise}
  */
 function resolveComponents(components) {
+    /* eslint-disable-next-line */
     return Promise.all(components.map((component) => {
         return typeof component === 'function' ? component() : component;
     }));
@@ -152,12 +153,17 @@ function createRouter() {
     router.beforeEach(beforeEach);
     router.afterEach(afterEach);
 
+    // TODO: Remove
+    window._router = router;
+
     return router;
 }
 
+// Create router instance
 const router = createRouter();
 
-sync(store, router);
+// Sync router state with vuex store
+// sync(store, router);
 
 export default router;
 

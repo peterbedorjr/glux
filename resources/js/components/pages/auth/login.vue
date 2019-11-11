@@ -75,7 +75,7 @@ export default {
             await this.$store.dispatch('auth/fetchUser');
 
             // Redirect home.
-            this.$router.push({ name: 'channels' });
+            this.$router.push({ name: 'channels.show', params: { id: '' } });
         },
     },
 };

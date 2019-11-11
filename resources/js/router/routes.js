@@ -16,7 +16,7 @@ export default [
     {
         path: '/channels',
         name: 'channels',
-        component: page('channels/index.vue'),
+        component: page('home'),
         children: [
             { path: ':id', name: 'channel.show', component: page('channels/show.vue') },
         ],

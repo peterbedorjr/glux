@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import * as types from '../mutation-types';
+import { SET_LOCALE } from '../mutation-types';
 
 const { locale, locales } = window.config;
 
@@ -17,7 +17,7 @@ export const getters = {
 
 // mutations
 export const mutations = {
-    [types.SET_LOCALE](s, { locale }) {
+    [SET_LOCALE](s, { locale }) {
         s.locale = locale;
     },
 };
@@ -26,7 +26,7 @@ export const mutations = {
 export const actions = {
     /* eslint-disable-next-line */
     setLocale({ commit }, { locale }) {
-        commit(types.SET_LOCALE, { locale });
+        commit(SET_LOCALE, { locale });
 
         Cookies.set('locale', locale, { expires: 365 });
     },

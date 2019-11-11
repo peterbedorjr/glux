@@ -38,6 +38,7 @@ class LoginController extends Controller
         }
 
         $user = $this->guard()->user();
+
         if ($user instanceof MustVerifyEmail && ! $user->hasVerifiedEmail()) {
             return false;
         }

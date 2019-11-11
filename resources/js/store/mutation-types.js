@@ -8,3 +8,7 @@ export const UPDATE_USER = 'UPDATE_USER';
 
 // lang.js
 export const SET_LOCALE = 'SET_LOCALE';
+
+// channels.js
+export const SET_CHANNELS = 'SET_CHANNELS';
+export const SET_CURRENT_CHANNEL_ID = 'SET_CURRENT_CHANNEL_ID';

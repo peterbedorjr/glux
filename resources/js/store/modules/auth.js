@@ -1,6 +1,12 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import * as types from '../mutation-types';
+import {
+    SAVE_TOKEN,
+    LOGOUT,
+    UPDATE_USER,
+    FETCH_USER_FAILURE,
+    FETCH_USER_SUCCESS,
+} from '../mutation-types';
 
 // state
 export const state = {
@@ -17,28 +23,28 @@ export const getters = {
 
 // mutations
 export const mutations = {
-    [types.SAVE_TOKEN](s, { token, remember }) {
+    [SAVE_TOKEN](s, { token, remember }) {
         s.token = token;
         Cookies.set('token', token, { expires: remember ? 365 : null });
     },
 
-    [types.FETCH_USER_SUCCESS](s, { user }) {
+    [FETCH_USER_SUCCESS](s, { user }) {
         s.user = user;
     },
 
-    [types.FETCH_USER_FAILURE](s) {
+    [FETCH_USER_FAILURE](s) {
         s.token = null;
         Cookies.remove('token');
     },
 
-    [types.LOGOUT](s) {
+    [LOGOUT](s) {
         s.user = null;
         s.token = null;
 
         Cookies.remove('token');
     },
 
-    [types.UPDATE_USER](s, { user }) {
+    [UPDATE_USER](s, { user }) {
         s.user = user;
     },
 };
@@ -46,33 +52,33 @@ export const mutations = {
 // actions
 export const actions = {
     saveToken({ commit }, payload) {
-        commit(types.SAVE_TOKEN, payload);
+        commit(SAVE_TOKEN, payload);
     },
-
     async fetchUser({ commit }) {
         try {
-            const { data } = await axios.get('/api/user');
+            const { data } = await axios.get('/api/v1/user');
 
-            commit(types.FETCH_USER_SUCCESS, { user: data });
+            commit(FETCH_USER_SUCCESS, { user: data });
         } catch (e) {
-            commit(types.FETCH_USER_FAILURE);
+            commit(FETCH_USER_FAILURE);
         }
     },
-
     updateUser({ commit }, payload) {
-        commit(types.UPDATE_USER, payload);
+        commit(UPDATE_USER, payload);
     },
 
     async logout({ commit }) {
         try {
-            await axios.post('/api/logout');
-        } catch (e) { }
+            await axios.post('/api/v1/logout');
+        } catch (e) {
+            //
+        }
 
-        commit(types.LOGOUT);
+        commit(LOGOUT);
     },
 
     async fetchOauthUrl(ctx, { provider }) {
-        const { data } = await axios.post(`/api/oauth/${provider}`);
+        const { data } = await axios.post(`/api/v1/oauth/${provider}`);
 
         return data.url;
     },

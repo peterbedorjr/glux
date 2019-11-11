@@ -23,6 +23,7 @@ class MessagePublished implements ShouldBroadcastNow
     /**
      * Create a new event instance.
      *
+     * @param $data
      * @return void
      */
     public function __construct($data)
@@ -37,7 +38,7 @@ class MessagePublished implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new Channel('test');
+        return new Channel('conversation.' . $this->message->conversation_id);
         //return new PrivateChannel('test');
     }
 }

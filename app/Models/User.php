@@ -64,7 +64,7 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
      */
     public function getAvatarAttribute()
     {
-        return 'https://www.gravatar.com/avatar/' . md5(strtolower($this->email)) . '.jpg?s=200&d=mm';
+        return 'https://i.pravatar.cc/150?u=' . md5(strtolower($this->email));
     }
 
     /**

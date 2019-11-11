@@ -2,9 +2,9 @@
     <div class="chat-window">
         <ul class="messages">
             <li
-                class="message"
                 v-for="message in messages"
                 :key="message.id"
+                class="message"
             >
                 <div class="message__avatar">
                     <img
@@ -16,17 +16,19 @@
                     <div class="message__user">
                         {{ message.user.username }}
                         <span class="message__time">
-                        {{ message.created_at_iso|luxon:format('t') }}
-                    </span>
+                            {{ message.created_at_iso|luxon:format('t') }}
+                        </span>
                     </div>
-                    <div class="message__content">
-                        {{ message.content }}
-                    </div>
+                    <div class="message__content" v-markdown="message.content" />
                 </div>
             </li>
         </ul>
         <div class="chat-input-wrap">
-            <textarea v-model="message" class="chat-input" @keydown.enter.prevent="submitMessage"></textarea>
+            <textarea
+                class="chat-input"
+                v-model="message"
+                @keydown.enter.exact.prevent="submitMessage"
+            />
         </div>
     </div>
 </template>
@@ -36,12 +38,43 @@ import axios from 'axios';
 
 export default {
     middleware: 'auth',
+    async beforeRouteUpdate(to, from, next) {
+        const channelId = to.params.id;
+        const { data } = await axios.get(`/api/v1/channels/${channelId}/messages`);
+
+        this.messages = data.data.reverse();
+        this.channelId = channelId;
+
+        const channel = `glux_database_conversation.${channelId}`;
+
+        // Leave the previous channel to avoid duplicate events
+        // TODO: Look into presence channels so we can send updates for
+        // all channels to users
+        this.$echo.leaveChannel(`glux_database_conversation.${from.params.id}`);
+
+        this.$echo.channel(channel)
+            .listen('MessagePublished', (e) => {
+                this.messages.push(e.message);
+            });
+
+        next();
+    },
     async beforeRouteEnter(to, from, next) {
-        const { data } = await axios.get(`/api/v1/channels/${to.params.id}/messages`);
+        const channelId = to.params.id;
+        const { data } = await axios.get(`/api/v1/channels/${channelId}/messages`);
 
         next((vm) => {
             vm.messages = data.data.reverse();
-            vm.channelId = to.params.id;
+            vm.channelId = channelId;
+
+            const channel = `glux_database_conversation.${channelId}`;
+
+            vm.$echo.leaveChannel(`glux_database_conversation.${from.params.id}`);
+
+            vm.$echo.channel(channel)
+                .listen('MessagePublished', (e) => {
+                    vm.messages.push(e.message);
+                });
         });
     },
     data: () => ({
@@ -49,20 +82,18 @@ export default {
         channelId: null,
         message: '',
     }),
-    mounted() {
-        window.Echo.channel('glux_database_test')
-            .listen('MessagePublished', (e) => {
-                this.messages.push(e.message);
-            });
-    },
     methods: {
-        async submitMessage() {
+        async submitMessage(e) {
             if (this.message) {
-                const { data } = await axios.post(`/api/v1/channels/${this.channelId}/messages`, {
-                    message: this.message,
-                });
+                try {
+                    await axios.post(`/api/v1/channels/${this.channelId}/messages`, {
+                        message: this.message,
+                    });
 
-                this.message = '';
+                    this.message = '';
+                } catch (e) {
+                    // TODO: Error handling
+                }
             }
         },
     },
@@ -99,6 +130,7 @@ export default {
 .message {
     display: flex;
     margin-bottom: 2rem;
+    word-wrap: break-word;
 
     &__avatar {
         flex: 0 0 5rem;

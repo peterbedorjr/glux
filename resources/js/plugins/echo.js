@@ -1,4 +1,5 @@
 import Echo from 'laravel-echo';
+import Vue from 'vue';
 
 window.io = require('socket.io-client');
 
@@ -8,4 +9,6 @@ if (typeof io !== 'undefined') {
         broadcaster: 'socket.io',
         host: `https://${window.location.hostname}:6001`,
     });
+
+    Vue.prototype.$echo = window.Echo;
 }
