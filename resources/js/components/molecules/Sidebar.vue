@@ -14,7 +14,7 @@
                     <router-link
                         v-for="channel in channels"
                         :key="channel.id"
-                        :to="{ name: 'channel.show', params: { id: channel.id } }"
+                        :to="{ name: 'channels.show', params: { id: channel.id } }"
                         tag="li"
                         :class="{ '-is-selected': channel.id == currentChannelId }"
                         class="conversations__conversation"
@@ -24,13 +24,18 @@
                 </ul>
             </li>
         </ul>
+        <v-button @click="logout">
+            {{ $t('logout') }}
+        </v-button>
     </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import VButton from '../atoms/Button';
 
 export default {
+    components: {VButton},
     computed: {
         ...mapGetters('channels', [
             'channels',
@@ -56,6 +61,13 @@ export default {
             'fetchChannels',
             'setCurrentChannelId',
         ]),
+        async logout() {
+            // Log out the user.
+            await this.$store.dispatch('auth/logout');
+
+            // Redirect to login.
+            this.$router.push({ name: 'login' });
+        },
     },
 };
 </script>

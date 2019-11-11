@@ -39,5 +39,6 @@ Route::group(['namespace' => 'Api'], function() {
     Route::group(['prefix' => 'user'], function() {
         Route::get('channels', 'UserChannelsController@index');
         Route::get('channels/{channelId}', 'UserChannelsController@show');
+        Route::post('conversations/current', 'CurrentConversationController');
     });
 });

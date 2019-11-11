@@ -38,6 +38,7 @@
 
 <script>
 import { Form, HasError } from 'vform';
+import { mapGetters } from 'vuex';
 import VInput from '../../atoms/Input.vue';
 import VButton from '../../atoms/Button.vue';
 import Checkbox from '../../molecules/Checkbox.vue';
@@ -60,6 +61,11 @@ export default {
         }),
         remember: false,
     }),
+    computed: {
+        ...mapGetters('auth', [
+            'user',
+        ]),
+    },
     methods: {
         async login() {
             // Submit the form.
@@ -75,7 +81,12 @@ export default {
             await this.$store.dispatch('auth/fetchUser');
 
             // Redirect home.
-            this.$router.push({ name: 'channels.show', params: { id: '' } });
+            this.$router.push({
+                name: 'channels.show',
+                params: {
+                    id: this.user.current_conversation_id || '',
+                },
+            });
         },
     },
 };

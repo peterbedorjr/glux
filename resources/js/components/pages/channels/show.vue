@@ -107,24 +107,24 @@ export default {
     position: relative;
     margin-bottom: 6rem;
 
-    &::before {
-        content: '';
-        display: block;
-        width: 100%;
-        height: 8rem;
-        background: rgb(6,36,0);
-        background: linear-gradient(0deg, rgba(6,36,0,0) 0%, rgba(255,255,255,1) 100%);
-        position: fixed;
-        top: 0;
-        left: 20rem;
-        right: 0;
-    }
+    /*&::before {*/
+    /*    content: '';*/
+    /*    display: block;*/
+    /*    width: 100%;*/
+    /*    height: 8rem;*/
+    /*    background: rgb(6,36,0);*/
+    /*    background: linear-gradient(0deg, rgba(6,36,0,0) 0%, rgba(255,255,255,1) 100%);*/
+    /*    position: fixed;*/
+    /*    top: 0;*/
+    /*    left: 20rem;*/
+    /*    right: 0;*/
+    /*}*/
 
-    &.-at-top {
-        &::before {
-            display: none;
-        }
-    }
+    /*&.-at-top {*/
+    /*    &::before {*/
+    /*        display: none;*/
+    /*    }*/
+    /*}*/
 }
 
 .message {

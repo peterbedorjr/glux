@@ -1,9 +1,10 @@
 @import '~@weepower/core/styles/reset';
 @import '~@weepower/core/styles/components/helpers';
 @import '~@weepower/core/styles/components/buttons';
-@import '~@weepower/core/styles/components/code';
 @import '~@weepower/core/styles/components/forms';
 @import '~@weepower/core/styles/components/tables';
+
+@import './hljs.scss';
 
 html,
 body,

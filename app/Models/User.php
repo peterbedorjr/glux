@@ -98,6 +98,14 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
         $this->notify(new VerifyEmail);
     }
 
+    public function updateCurrentConversationId($id)
+    {
+        $this->current_conversation_id = $id;
+        $this->save();
+
+        return $this;
+    }
+
     /**
      * @return int
      */

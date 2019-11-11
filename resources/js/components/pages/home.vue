@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { mapGetters } from 'vuex';
 import Sidebar from '../molecules/Sidebar.vue';
 
@@ -24,9 +25,16 @@ export default {
         ]),
     },
     watch: {
-        $route(val) {
+        async $route(val) {
             // TODO: Put this in method to avoid duplicate code
             const channel = `glux_database_conversation.${val.params.id}`;
+
+            // Update the users current channel id
+            await axios.post('/api/v1/user/conversations/current', {
+                channelId: val.params.id,
+            });
+
+            this.scrollToBottom();
 
             this.$echo.channel(channel)
                 .listen('MessagePublished', () => {
@@ -50,7 +58,7 @@ export default {
         }, 500);
     },
     methods: {
-        handleScroll(e) {
+        handleScroll() {
             // TODO: Remove top gradient fade class on chat window when at top
         },
         scrollToBottom() {
