@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 
 class CurrentConversationController extends Controller
 {
+    /**
+     * @param Request $request
+     */
     public function __invoke(Request $request)
     {
         auth()->user()->updateCurrentConversationId(

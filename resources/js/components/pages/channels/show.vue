@@ -1,5 +1,5 @@
 <template>
-    <div class="chat-window">
+    <simplebar class="chat-window">
         <ul class="messages">
             <li
                 v-for="message in messages"
@@ -30,14 +30,18 @@
                 @keydown.enter.exact.prevent="submitMessage"
             />
         </div>
-    </div>
+    </simplebar>
 </template>
 
 <script>
 import axios from 'axios';
+import Simplebar from 'simplebar-vue';
 
 export default {
     middleware: 'auth',
+    components: {
+        Simplebar,
+    },
     async beforeRouteUpdate(to, from, next) {
         const channelId = to.params.id;
         const { data } = await axios.get(`/api/v1/channels/${channelId}/messages`);

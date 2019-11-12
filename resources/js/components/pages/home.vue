@@ -20,9 +20,29 @@ export default {
         Sidebar,
     },
     computed: {
+        // TODO: Rework to use conversations
         ...mapGetters('channels', [
             'currentChannelId',
         ]),
+        ...mapGetters('auth', [
+            'user',
+        ]),
+    },
+    async beforeRouteEnter(to, from, next) {
+        next(async (vm) => {
+            let id = null;
+
+            if (vm.user.current_conversation_id) {
+                id = vm.user.current_conversation_id;
+            } else {
+                const { data } = await axios.get('')
+            }
+
+            vm.$router.push({
+                name: 'channels.show',
+                params: { id },
+            });
+        });
     },
     watch: {
         async $route(val) {
@@ -93,7 +113,7 @@ export default {
 
     &__main {
         grid-area: main;
-        overflow: scroll;
+        /*overflow: scroll;*/
     }
 }
 </style>
